@@ -27,8 +27,6 @@ uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
 
 Open `http://localhost:8000`.
 
-## Supported Language Codes
-
 The UI currently exposes a high-demand subset of NLLB codes. You can add more inside `SUPPORTED_LANGS` in `app/main.py`.
 
 ## Notes for Production
