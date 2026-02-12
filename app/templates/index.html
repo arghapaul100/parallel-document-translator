@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Parallel Document Translator</title>
+  <link rel="stylesheet" href="/static/styles.css" />
+</head>
+<body>
+  <main class="container">
+    <h1>Parallel Document Translator</h1>
+    <p class="subtitle">Upload DOCX and translate side-by-side while preserving document structure.</p>
+
+    <form action="/translate" method="post" enctype="multipart/form-data" class="card form-grid">
+      <label>
+        DOCX File
+        <input type="file" name="file" accept=".docx" required />
+      </label>
+
+      <label>
+        Source Language
+        <select name="source_lang" required>
+          {% for code, name in languages.items() %}
+            <option value="{{ code }}">{{ name }} ({{ code }})</option>
+          {% endfor %}
+        </select>
+      </label>
+
+      <label>
+        Target Language
+        <select name="target_lang" required>
+          {% for code, name in languages.items() %}
+            <option value="{{ code }}">{{ name }} ({{ code }})</option>
+          {% endfor %}
+        </select>
+      </label>
+
+      <button type="submit">Translate Document</button>
+    </form>
+
+    {% if download_token %}
+      <div class="download-bar card">
+        <a href="/download/{{ download_token }}" class="download-btn">Download Translated DOCX</a>
+      </div>
+    {% endif %}
+
+    {% if results %}
+      <section class="grid">
+        <div class="pane card">
+          <h2>Source</h2>
+          {% for row in results %}
+            <article class="segment">{{ row.source }}</article>
+          {% endfor %}
+        </div>
+        <div class="pane card">
+          <h2>Translated</h2>
+          {% for row in results %}
+            <article class="segment">{{ row.translated }}</article>
+          {% endfor %}
+        </div>
+      </section>
+    {% endif %}
+  </main>
+</body>
+</html>
